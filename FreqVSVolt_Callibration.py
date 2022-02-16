@@ -1,20 +1,23 @@
+#Library imports
 import pyvisa
 import time
 import statistics
 import numpy as np
 import random
 
+#Setting up connection with function generator & oscilloscope
 rm=pyvisa.ResourceManager()
-func_gen=rm.open_resource('USB0::0x1AB1::0x0642::DG1ZA201701936::INSTR')
-osc=rm.open_resource('USB0::0x0699::0x0368::C026273::INSTR')
+func_gen=rm.open_resource('USB0::0x1AB1::0x0642::DG1ZA201701936::INSTR') #function generator
+osc=rm.open_resource('USB0::0x0699::0x0368::C026273::INSTR') #oscilloscope
 
-size=50
-V_max=0.5
-V_delta=0.1
-t_delta=0.1
+#PARAMETERS FOR CALLIBRATION RUN
+size=50 # number of oscilloscope frequency measurements per voltage point
+V_max=0.5 # absolute maximum voltage to be checked in sweep (Volt)
+V_delta=0.1 # spacing of voltage points (Volt)
+t_delta=0.1 # rate of oscilloscope frequency capture (seconds)
+fwd_bwd_cycles=14 # Number of forward-backward sweeps
 
-forward_backward_cycles=14
-
+# Loop for figuring out the number of voltage points for dta-storing arrays
 i=V_max*-1
 v_set=1
 while i!=999:
@@ -24,35 +27,34 @@ while i!=999:
     else:
         v_set=v_set+1
 
+#array creation
 data_func=[0]*v_set
 data_osc=[0]*v_set
 data_avg=[0]*v_set
 data_stdev=[0]*v_set
 
-
-
-
+# measurement/saving cycle
 cycle=0
-while (cycle<forward_backward_cycles):
-    string="Voltage DC (V),Mean Frequency (Hz), STDEV Frequency (Hz)\n"
+while (cycle<fwd_bwd_cycles):
+    string="Voltage DC (V),Mean Frequency (Hz), STDEV Frequency (Hz)\n" #headers for the data storing
     i=0
     while i <len(data_osc):
         data_osc[i]=[0]*size
         data_func[i]=V_max*-1+i*V_delta
-        func_command=func_gen.write(":SOUR1:APPL:NOIS 0.002,"+str(data_func[i]))
+        func_command=func_gen.write(":SOUR1:APPL:NOIS 0.002,"+str(data_func[i])) #set new voltage on function generator
         j=0
         while j<size:
-            data_osc[i][j]=float(osc.query("TRIGger:MAIn:FREQuency?"))
-            time.sleep(t_delta)
+            data_osc[i][j]=float(osc.query("TRIGger:MAIn:FREQuency?")) #obtaining frequency reading from oscilloscope
+            time.sleep(t_delta) #time delay between frequency captures
             j=j+1
-        data_avg[i]=np.mean(data_osc[i])
-        data_stdev[i]=np.std(data_osc[i])
-        string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
+        data_avg[i]=np.mean(data_osc[i]) # obtaining average frequency for the specific voltage point
+        data_stdev[i]=np.std(data_osc[i]) # obtaining standard deviation in frequency for the specific voltage point
+        string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n" # adding average and stdev values to total string that will be later saved
         i=i+1
-    name="FG___Freq_vs_Volt_Calibration___forward_"+str(cycle+1)+".txt"
-    text_file = open(name, "wt")
-    n = text_file.write(string)
-    text_file.close()
+    name="FG___Freq_vs_Volt_Calibration___forward_"+str(cycle+1)+".txt" #automated naming of data files
+    text_file = open(name, "wt") #data file creation
+    n = text_file.write(string) #saving the string into the data file
+    text_file.close() #data file closure
     
     string="Voltage DC (V),Mean Frequency (Hz), STDEV Frequency (Hz)\n"
     i=0
