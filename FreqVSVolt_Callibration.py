@@ -46,7 +46,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_1.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_1.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -65,7 +65,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_1.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_1.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -88,7 +88,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_2.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_2.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -107,7 +107,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_2.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_2.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -130,7 +130,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_3.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_3.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -149,7 +149,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_3.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_3.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -172,7 +172,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_4.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_4.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -191,7 +191,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_4.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_4.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -214,7 +214,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_5.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_5.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -233,7 +233,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_5.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_5.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -256,7 +256,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_6.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_6.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -275,7 +275,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_6.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_6.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -298,7 +298,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_7.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_7.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -317,7 +317,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_7.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_7.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -340,7 +340,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_8.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_8.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -359,7 +359,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_8.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_8.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -379,7 +379,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_9.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_9.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -398,49 +398,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_9.txt", "wt")
-n = text_file.write(string)
-text_file.close()
-
-
-
-
-
-string="Voltage DC (V),Mean Frequency (Hz), STDEV Frequency (Hz)\n"
-i=0
-while i <len(data_osc):
-    data_osc[i]=[0]*size
-    data_func[i]=V_max*-1+i*V_delta
-    #func_command=func_gen.write(":SOUR1:APPL:NOIS 0.002,"+str(data_func[i]))
-    j=0
-    while j<size:
-        #data_osc[i][j]=float(osc.query("TRIGger:MAIn:FREQuency?"))
-        time.sleep(t_delta)
-        j=j+1
-    data_avg[i]=np.mean(data_osc[i])
-    data_stdev[i]=np.std(data_osc[i])
-    string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
-    i=i+1
-text_file = open("forward_10.txt", "wt")
-n = text_file.write(string)
-text_file.close()
-
-string="Voltage DC (V),Mean Frequency (Hz), STDEV Frequency (Hz)\n"
-i=0
-while i <len(data_osc):
-    data_osc[i]=[0]*size
-    data_func[i]=V_max-i*V_delta
-    #func_command=func_gen.write(":SOUR1:APPL:NOIS 0.002,"+str(data_func[i]))
-    j=0
-    while j<size:
-        #data_osc[i][j]=float(osc.query("TRIGger:MAIn:FREQuency?"))
-        time.sleep(t_delta)
-        j=j+1
-    data_avg[i]=np.mean(data_osc[i])
-    data_stdev[i]=np.std(data_osc[i])
-    string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
-    i=i+1
-text_file = open("backward_10.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_9.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -463,7 +421,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_11.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_10.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -482,7 +440,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_11.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_10.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -505,7 +463,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_12.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_11.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -524,7 +482,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_12.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_11.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -547,7 +505,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_13.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_12.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -566,7 +524,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_13.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_12.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -589,7 +547,7 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("forward_14.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_13.txt", "wt")
 n = text_file.write(string)
 text_file.close()
 
@@ -608,6 +566,48 @@ while i <len(data_osc):
     data_stdev[i]=np.std(data_osc[i])
     string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
     i=i+1
-text_file = open("backward_14.txt", "wt")
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_13.txt", "wt")
+n = text_file.write(string)
+text_file.close()
+
+
+
+
+
+string="Voltage DC (V),Mean Frequency (Hz), STDEV Frequency (Hz)\n"
+i=0
+while i <len(data_osc):
+    data_osc[i]=[0]*size
+    data_func[i]=V_max*-1+i*V_delta
+    #func_command=func_gen.write(":SOUR1:APPL:NOIS 0.002,"+str(data_func[i]))
+    j=0
+    while j<size:
+        #data_osc[i][j]=float(osc.query("TRIGger:MAIn:FREQuency?"))
+        time.sleep(t_delta)
+        j=j+1
+    data_avg[i]=np.mean(data_osc[i])
+    data_stdev[i]=np.std(data_osc[i])
+    string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
+    i=i+1
+text_file = open("FG___Freq_vs_Volt_Calibration___forward_14.txt", "wt")
+n = text_file.write(string)
+text_file.close()
+
+string="Voltage DC (V),Mean Frequency (Hz), STDEV Frequency (Hz)\n"
+i=0
+while i <len(data_osc):
+    data_osc[i]=[0]*size
+    data_func[i]=V_max-i*V_delta
+    #func_command=func_gen.write(":SOUR1:APPL:NOIS 0.002,"+str(data_func[i]))
+    j=0
+    while j<size:
+        #data_osc[i][j]=float(osc.query("TRIGger:MAIn:FREQuency?"))
+        time.sleep(t_delta)
+        j=j+1
+    data_avg[i]=np.mean(data_osc[i])
+    data_stdev[i]=np.std(data_osc[i])
+    string=string+str(data_func[i])+","+str(data_avg[i])+","+str(data_stdev[i])+"\n"
+    i=i+1
+text_file = open("FG___Freq_vs_Volt_Calibration___backward_14.txt", "wt")
 n = text_file.write(string)
 text_file.close()
