@@ -1,3 +1,0 @@
-Voltage DC (V),Mean Frequency (Hz), STDEV Frequency (Hz)
--0.1,0.0,0.0
-0.0,0.0,0.0
