@@ -11,11 +11,11 @@ func_gen=rm.open_resource('USB0::0x1AB1::0x0642::DG1ZA201701936::INSTR') #functi
 osc=rm.open_resource('USB0::0x0699::0x0368::C026273::INSTR') #oscilloscope
 
 #PARAMETERS FOR CALLIBRATION RUN
-size=50 # number of oscilloscope frequency measurements per voltage point
-V_max=0.5 # absolute maximum voltage to be checked in sweep (Volt)
+size=600 # number of oscilloscope frequency measurements per voltage point
+V_max=6.5 # absolute maximum voltage to be checked in sweep (Volt)
 V_delta=0.1 # spacing of voltage points (Volt)
 t_delta=0.1 # rate of oscilloscope frequency capture (seconds)
-fwd_bwd_cycles=14 # Number of forward-backward sweeps
+fwd_bwd_cycles=20 # Number of forward-backward sweeps
 
 # Loop for figuring out the number of voltage points for dta-storing arrays
 i=V_max*-1
