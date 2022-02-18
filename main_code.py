@@ -10,7 +10,7 @@ import threading
 import time
 import random
 import pyvisa
-import sys
+
 
 ### Threading variables used to run data gathering and graphing
 global endThread
@@ -25,27 +25,13 @@ global run_start
 run_start=""
 global big_s
 big_s=""
-#global rm 
-#rm=pyvisa.ResourceManager() # creates resource manager require for communication with function generator
-global randa
-global offsa
-global span
-global topf
-global botf
-span=0
-randa=0
-offsa=0
-topf=0
-botf=0
-#global func_gen
-#func_gen=0
-#global osc
-#osc=0
 
-
-
-
-
+global rm 
+rm=pyvisa.ResourceManager() # creates resource manager require for communication with function generator
+global func_gen
+func_gen=0
+global osc
+osc=0
 
 ### Font stylization for UI
 font_A='Helvetica 12 bold'
@@ -75,12 +61,6 @@ def graphing():
     global data_freq
     global run_start
     global data_time_
-    global topf
-    global botf
-    global span
-    span=int(timespan_var.get())
-    #botf=float(Fcenter_var.get())-float(botf_var.get())
-    #topf=float(Fcenter_var.get())+float(topf_var.get())
     while (1==1):
         if endThread.is_set():
             break
@@ -104,56 +84,31 @@ def graphing():
         LockThread.release()
         time.sleep(0.1)
 
-def adjust_freq():
-    global randa
-    global offsa
-    global span
-    global topf
-    global botf
-    #global rm
-    #global func_gen
-    #global osc
-    #if (randa!=float(Fspan_var.get())) :
-        #randa=float(Fspan_var.get())
-    #if (offsa!=float(Fcenter_var.get())) :
-        #offsa=float(Fcenter_var.get())
-    if (span!=int(timespan_var.get())):
-        span=int(timespan_var.get())
-    #if (topf!=float(Fcenter_var.get())+float(topf_var.get())):
-        #topf=float(Fcenter_var.get())+float(topf_var.get())
-    #if (botf!=float(Fcenter_var.get())-float(botf_var.get())):
-        #botf=float(Fcenter_var.get())-float(botf_var.get())
- 
-def quiti():
-    sys.exit()
+
+
 
 def osc_signal_processor(data,scale,fcent,fdev):
     quant=10.0*scale/256.0;
-    volts=[0]*len(data-7)
+    volts=[0]*(len(data)-7)
     i=0
     while i<len(volts):
         volts[i]=(float(data[i+6])-127.0)*quant;
         i=i+1
     value_volt=np.mean(volts)
-    output=value_volt/5.0*fdev+fcent
+    output=value_volt*0.4545+fcent
     return output
     
 def freq_meassure():
-    #global rm
-    #global func_gen
-    #global osc
-    #osc=rm.open_resource('...')
-    #func_gen=rm.open_resource('USB0::0x1AB1::0x0642::DG1ZA201701936::INSTR')
-    #osc=rm.open_resource('USB0::0x0699::0x0368::C026273::INSTR')
+    global rm
+    global func_gen
+    global osc
+    func_gen=rm.open_resource('USB0::0x1AB1::0x0642::DG1ZA201701936::INSTR')
+    osc=rm.open_resource('USB0::0x0699::0x0368::C026273::INSTR')
     global data_time
     global data_time_
     global data_freq
     global run_start
     global big_s
-    global randa
-    global offsa
-    #randa=float(Fspan_var.get())
-    #offsa=float(Fcenter_var.get())
     run_start=datetime.now().strftime("[%Y.%m.%d]-(%H_%M_%S)")
     data_time=[0]*1
     data_time_=[0]*1
@@ -162,28 +117,27 @@ def freq_meassure():
     big_s="[Date] (Time),Time Stamp,Frequency f (Hz)\n"
     while (1==1):
         if endThread.is_set():
-            #func_gen.close()
-            #osc.close()
+            func_gen.close()
+            osc.close()
             return
         else:
             LockThread.acquire()
             if (data_time[0]==0):
                 data_time[0]=datetime.now()
-                #data_freq[0]=random.uniform(-randa,randa)+offsa
-                #osc_curve=osc.write('CURVE?')
-                #osc_scale=osc.query('CH1:SCALe?')
-                #funcgen_fcent=float(func_gen.query(':SOUR1:FREQ?'))
-                #funcgen_fdev=float(func_gen.query(':SOUR1:FM?'))
-                #data_freq[0]=osc_signal_processor(osc_curve,osc_scale,funcgen_fcent,funcgen_fdev)
+                osc_curve=osc.query_binary_values('CURVE?', datatype='b', is_big_endian=True)
+                print(osc_curve)
+                osc_scale=float(osc.query('CH1:SCALe?'))
+                funcgen_fcent=float(func_gen.query(':SOUR1:FREQ?'))
+                funcgen_fdev=float(func_gen.query(':SOUR1:FM?'))
+                data_freq[0]=osc_signal_processor(osc_curve,osc_scale,funcgen_fcent,funcgen_fdev)
                 data_time_[0]=data_time[0].timestamp()
             else:
                 data_time.append(datetime.now())
-                #data_freq.append(random.uniform(-randa,randa)+offsa)
-                #osc_curve=osc.write('CURVE?')
-                #osc_scale=osc.query('CH1:SCALe?')
-                #funcgen_fcent=float(func_gen.query(':SOUR1:FREQ?'))
-                #funcgen_fdev=float(func_gen.query(':SOUR1:FM?'))
-                #data_freq.append(osc_signal_processor(osc_curve,osc_scale,funcgen_fcent,funcgen_fdev))
+                osc_curve=osc.write('CURVE?')
+                osc_scale=float(osc.query('CH1:SCALe?'))
+                funcgen_fcent=float(func_gen.query(':SOUR1:FREQ?'))
+                funcgen_fdev=float(func_gen.query(':SOUR1:FM?'))
+                data_freq.append(osc_signal_processor(osc_curve,osc_scale,funcgen_fcent,funcgen_fdev))
                 data_time_.append(data_time[i].timestamp())
                 EventDATA.set()
             big_s=big_s+data_time[i].strftime("%Y-%m-%d %H:%M:%S.%f")+","+str(data_time_[i])+","+str(data_freq[i])+"\n"
@@ -216,55 +170,52 @@ timespan_label = tk.Label(control_frame,font=font_A,text="Graphing Timespan")
 timespan_label_ = tk.Label(control_frame,text="sec",font=font_B)
 timespan_var = tk.StringVar(value="120")
 timespan_entry = tk.Entry(control_frame,bg="#ffffff",textvariable=timespan_var,font=font_B)
-#Fcenter_label = tk.Label(control_frame,font=font_A,text="Center Frequency")
-#Fcenter_label_ = tk.Label(control_frame,text="Hz",font=font_B)
-#Fcenter_var = tk.StringVar(value="32745")
-#Fcenter_entry = tk.Entry(control_frame,bg="#ffffff",textvariable=Fcenter_var,font=font_B)
-#Fspan_label = tk.Label(control_frame,font=font_A,text="Frequency Modulation Deviation")
-#Fspan_label_ = tk.Label(control_frame,text="Hz",font=font_B)
-#Fspan_var = tk.StringVar(value="2.5")
-#Fspan_entry = tk.Entry(control_frame,bg="#ffffff",textvariable=Fspan_var,font=font_B)
-#topf_label = tk.Label(control_frame,font=font_A,text="Top Frequncy Limit Around Center")
-#topf_label_ = tk.Label(control_frame,text="Hz",font=font_B)
-#topf_var = tk.StringVar(value="5")
-#topf_entry = tk.Entry(control_frame,bg="#ffffff",textvariable=topf_var,font=font_B)
-#botf_label = tk.Label(control_frame,font=font_A,text="Bottom Frequncy Limit Around Center")
-#botf_label_ = tk.Label(control_frame,text="Hz",font=font_B)
-#botf_var = tk.StringVar(value="5")
-#botf_entry = tk.Entry(control_frame,bg="#ffffff",textvariable=botf_var,font=font_B)
+Fcenter_label = tk.Label(control_frame,font=font_A,text="Center Frequency")
+Fcenter_label_ = tk.Label(control_frame,text="Hz",font=font_B)
+Fcenter_var = tk.StringVar(value="32745")
+Fcenter_entry = tk.Entry(control_frame,bg="#ffffff",textvariable=Fcenter_var,font=font_B)
+Fspan_label = tk.Label(control_frame,font=font_A,text="Frequency Modulation Deviation")
+Fspan_label_ = tk.Label(control_frame,text="Hz",font=font_B)
+Fspan_var = tk.StringVar(value="2.5")
+Fspan_entry = tk.Entry(control_frame,bg="#ffffff",textvariable=Fspan_var,font=font_B)
+topf_label = tk.Label(control_frame,font=font_A,text="Top Frequncy Limit Around Center")
+topf_label_ = tk.Label(control_frame,text="Hz",font=font_B)
+topf_var = tk.StringVar(value="5")
+topf_entry = tk.Entry(control_frame,bg="#ffffff",textvariable=topf_var,font=font_B)
+botf_label = tk.Label(control_frame,font=font_A,text="Bottom Frequncy Limit Around Center")
+botf_label_ = tk.Label(control_frame,text="Hz",font=font_B)
+botf_var = tk.StringVar(value="5")
+botf_entry = tk.Entry(control_frame,bg="#ffffff",textvariable=botf_var,font=font_B)
 
 
-#Fcenter_label.grid(row=0,column=0,sticky="ews",padx=(25,10),pady=(50,5))
-#Fcenter_entry.grid(row=0,column=1,sticky="ews",padx=(10,10),pady=(50,5))
-#Fcenter_label_.grid(row=0, column=2,sticky="ews",padx=(10,25),pady=(50,5))
+Fcenter_label.grid(row=0,column=0,sticky="ews",padx=(25,10),pady=(50,5))
+Fcenter_entry.grid(row=0,column=1,sticky="ews",padx=(10,10),pady=(50,5))
+Fcenter_label_.grid(row=0, column=2,sticky="ews",padx=(10,25),pady=(50,5))
 
-#Fspan_label.grid(row=1,column=0,sticky="ews",padx=(25,10),pady=(5,20))
-#Fspan_entry.grid(row=1,column=1,sticky="ews",padx=(10,10),pady=(5,20))
-#Fspan_label_.grid(row=1, column=2,sticky="ews",padx=(10,25),pady=(5,20))
+Fspan_label.grid(row=1,column=0,sticky="ews",padx=(25,10),pady=(5,20))
+Fspan_entry.grid(row=1,column=1,sticky="ews",padx=(10,10),pady=(5,20))
+Fspan_label_.grid(row=1, column=2,sticky="ews",padx=(10,25),pady=(5,20))
 
-#topf_label.grid(row=5,column=0,sticky="ews",padx=(25,10),pady=(20,5))
-#topf_entry.grid(row=5,column=1,sticky="ews",padx=(10,10),pady=(20,5))
-#topf_label_.grid(row=5, column=2,sticky="ews",padx=(10,25),pady=(20,5))
+topf_label.grid(row=5,column=0,sticky="ews",padx=(25,10),pady=(20,5))
+topf_entry.grid(row=5,column=1,sticky="ews",padx=(10,10),pady=(20,5))
+topf_label_.grid(row=5, column=2,sticky="ews",padx=(10,25),pady=(20,5))
 
-#botf_label.grid(row=6,column=0,sticky="ews",padx=(25,10),pady=(5,5))
-#botf_entry.grid(row=6,column=1,sticky="ews",padx=(10,10),pady=(5,5))
-#botf_label_.grid(row=6, column=2,sticky="ews",padx=(10,25),pady=(5,5))
+botf_label.grid(row=6,column=0,sticky="ews",padx=(25,10),pady=(5,5))
+botf_entry.grid(row=6,column=1,sticky="ews",padx=(10,10),pady=(5,5))
+botf_label_.grid(row=6, column=2,sticky="ews",padx=(10,25),pady=(5,5))
 
 timespan_label.grid(row=7,column=0,sticky="ews",padx=(25,10),pady=(5,75))
 timespan_entry.grid(row=7,column=1,sticky="ews",padx=(10,10),pady=(5,75))
 timespan_label_.grid(row=7, column=2,sticky="ews",padx=(10,25),pady=(5,75))
 
 
-
-adjust=tk.Button(control_frame,text="ADJUST PARAMETERS",font=font_A,bg="#006f00",fg="#ffffff",command=adjust_freq)
-adjust.grid(row=9,column=0,columnspan=3,sticky="ews",padx=(25,25),pady=(2,15))
 start=tk.Button(control_frame,text="START",font=font_A,bg="#7b7b7b",fg="#ffffff",command=data_thread_start)
 start.grid(row=10,column=0,columnspan=3,sticky="ews",padx=(25,25),pady=(2,2))
 stop=tk.Button(control_frame,text="STOP",font=font_A,bg="#7b7b7b",fg="#ffffff",command=data_thread_stop)
 stop.grid(row=11,column=0,columnspan=3,sticky="ews",padx=(25,25),pady=(2,2))
 save=tk.Button(control_frame,text="SAVE",font=font_A,bg="#7b7b7b",fg="#ffffff",command=save_data)
 save.grid(row=12,column=0,columnspan=3,sticky="ews",padx=(25,25),pady=(2,2))
-Quit_button=tk.Button(control_frame,text="QUIT",font=font_A,bg="#6f0000",fg="#ffffff",command=quiti)
+Quit_button=tk.Button(control_frame,text="QUIT",font=font_A,bg="#6f0000",fg="#ffffff",command=quit)
 Quit_button.grid(row=99,column=0,columnspan=3,sticky="ews",padx=(25,25),pady=(35,25))
 
 tk.mainloop()
