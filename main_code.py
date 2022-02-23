@@ -44,14 +44,14 @@ control_frame= tk.Frame(root) #sub-frame for all interactables
 control_frame.pack(side=tk.LEFT)
 root.wm_title("QTF Sensor - Frequency Acquisition Software")
     
-def save_data():
-    global run_start
-    global big_s
-    dt_string = run_start
-    title="DATA"+str(dt_string)+".csv" 
-    text_file = open(title, "wt")
-    n = text_file.write(big_s)
-    text_file.close()
+#def save_data():
+#    global run_start
+#    global big_s
+#    dt_string = run_start
+#    title="DATA"+str(dt_string)+".csv" 
+#    text_file = open(title, "wt")
+#    n = text_file.write(big_s)
+#    text_file.close()
 
 def graphing():
     global root
@@ -109,12 +109,25 @@ def freq_meassure():
     global data_freq
     global run_start
     global big_s
+    
+    
+    
     run_start=datetime.now().strftime("[%Y.%m.%d]-(%H_%M_%S)")
+    title="DATA"+str(run_start)+".csv"
+    big_s="[Date] (Time),Time Stamp,Frequency f (Hz)\n"
+    text_file = open(title, "wt")
+    text_content = text_file.write(big_s)
+    text_file.close()
+    
+    
+    
+    
+    
     data_time=[0]*1
     data_time_=[0]*1
     data_freq=[0]*1
     i=0
-    big_s="[Date] (Time),Time Stamp,Frequency f (Hz)\n"
+    
     while (1==1):
         if endThread.is_set():
             func_gen.close()
@@ -123,24 +136,37 @@ def freq_meassure():
         else:
             LockThread.acquire()
             if (data_time[0]==0):
+                
                 data_time[0]=datetime.now()
                 osc_curve=osc.query_binary_values('CURVE?', datatype='b', is_big_endian=True)
-                print(osc_curve)
                 osc_scale=float(osc.query('CH1:SCALe?'))
                 funcgen_fcent=float(func_gen.query(':SOUR1:FREQ?'))
                 funcgen_fdev=float(func_gen.query(':SOUR1:FM?'))
                 data_freq[0]=osc_signal_processor(osc_curve,osc_scale,funcgen_fcent,funcgen_fdev)
                 data_time_[0]=data_time[0].timestamp()
+                
+                
+                
             else:
+                
                 data_time.append(datetime.now())
-                osc_curve=osc.write('CURVE?')
+                osc_curve=osc.query_binary_values('CURVE?', datatype='b', is_big_endian=True)
                 osc_scale=float(osc.query('CH1:SCALe?'))
                 funcgen_fcent=float(func_gen.query(':SOUR1:FREQ?'))
                 funcgen_fdev=float(func_gen.query(':SOUR1:FM?'))
                 data_freq.append(osc_signal_processor(osc_curve,osc_scale,funcgen_fcent,funcgen_fdev))
                 data_time_.append(data_time[i].timestamp())
                 EventDATA.set()
-            big_s=big_s+data_time[i].strftime("%Y-%m-%d %H:%M:%S.%f")+","+str(data_time_[i])+","+str(data_freq[i])+"\n"
+                
+                
+                
+                
+                
+                
+            big_s=data_time[i].strftime("%Y-%m-%d %H:%M:%S.%f")+","+str(data_time_[i])+","+str(data_freq[i])+"\n"
+            text_file = open(title, 'a')
+            text_content = text_file.write(big_s)
+            text_file.close()
             i=i+1
             LockThread.release()
         time.sleep(1)
@@ -213,8 +239,8 @@ start=tk.Button(control_frame,text="START",font=font_A,bg="#7b7b7b",fg="#ffffff"
 start.grid(row=10,column=0,columnspan=3,sticky="ews",padx=(25,25),pady=(2,2))
 stop=tk.Button(control_frame,text="STOP",font=font_A,bg="#7b7b7b",fg="#ffffff",command=data_thread_stop)
 stop.grid(row=11,column=0,columnspan=3,sticky="ews",padx=(25,25),pady=(2,2))
-save=tk.Button(control_frame,text="SAVE",font=font_A,bg="#7b7b7b",fg="#ffffff",command=save_data)
-save.grid(row=12,column=0,columnspan=3,sticky="ews",padx=(25,25),pady=(2,2))
+#save=tk.Button(control_frame,text="SAVE",font=font_A,bg="#7b7b7b",fg="#ffffff",command=save_data)
+#save.grid(row=12,column=0,columnspan=3,sticky="ews",padx=(25,25),pady=(2,2))
 Quit_button=tk.Button(control_frame,text="QUIT",font=font_A,bg="#6f0000",fg="#ffffff",command=quit)
 Quit_button.grid(row=99,column=0,columnspan=3,sticky="ews",padx=(25,25),pady=(35,25))
 
