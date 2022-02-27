@@ -24,14 +24,6 @@ global run_start
 run_start=""
 global big_s
 big_s=""
-
-global rm 
-rm=pyvisa.ResourceManager() # creates resource manager require for communication with function generator
-global func_gen
-func_gen=0
-global osc
-osc=0
-
 global topa
 global bota
 global span
@@ -39,21 +31,21 @@ global funcgen_fcent
 topa=5.0
 bota=5.0
 span=30
-
 global data_time
 global data_time_
 global data_freq
-data_time=[0]*1
-data_time_=[0]*1
-data_freq=[0]*1
 
-
+### placeholder that will be used to contorl instruments
+global rm 
+rm=pyvisa.ResourceManager() # creates resource manager require for communication with function generator
+global func_gen
+func_gen=0
+global osc
+osc=0
 
 ### Font stylization for UI
 font_A='Helvetica 12 bold'
 font_B='Helvetica 12'
-
-
 
 root = tk.Tk() #frame of the UI
 control_frame= tk.Frame(root) #sub-frame for all interactables
@@ -69,21 +61,21 @@ root.wm_title("QTF Sensor - Frequency Acquisition Software")
 #    n = text_file.write(big_s)
 #    text_file.close()
 
+### Function that cheecks and adjusts graphing parameters
 def adjust_graph():
     global topa
     global bota
     global span
-    t=float(topf_var.get())
-    b=float(botf_var.get())
-    s=int(timespan_var.get())
-    if topa!=t:
+    t=float(topf_var.get()) #obtain the value in corresponding textbox
+    b=float(botf_var.get()) #" "
+    s=int(timespan_var.get()) #" "
+    if topa!=t: #if obtained value differs from the currently set, the set is made to be equalt to the textbox value
         topa=t
-    if bota!=b:
+    if bota!=b: #" "
         bota=b
-    if span!=s:
+    if span!=s: #" "
         span=s
     
-
 def graphing():
     global topa
     global bota
@@ -109,13 +101,10 @@ def graphing():
             topa_=funcgen_fcent+topa
             print(str(data_time_[len(data_time_)-1])+"   "+str(topa)+"   "+str(topa_)+"\n")
             bota_=funcgen_fcent-bota
-                
             title_="Run:     "+str(run_start)
             graph.clear()
-            graph.plot(data_time_,data_freq)
+            graph.plot(data_time_,data_freq,color="red")
             graph.set_title(title_,fontsize=15,fontweight='bold')
-            
-            graph.axis([jj,jjj,32744,32746])
             graph.axis([jj,jjj,bota_,topa_])
             graph.set_xlabel("\nTime, t (s)", fontsize=11,fontweight='bold')
             graph.set_ylabel("Frequency, f (Hz)\n", fontsize=11,fontweight='bold')
@@ -124,9 +113,6 @@ def graphing():
             EventDATA.clear()
         LockThread.release()
         time.sleep(0.05)
-
-
-
 
 def osc_signal_processor(data,scale,fcent,fdev):
     quant=10.0*scale/256.0;
@@ -152,28 +138,20 @@ def freq_meassure():
     global data_freq
     global run_start
     global big_s
-    
-    
-    
     run_start=datetime.now().strftime("[%Y.%m.%d]-(%H_%M_%S)")
     title="DATA"+str(run_start)+".csv"
     big_s="[Date] (Time),Time Stamp,Frequency f (Hz)\n"
     text_file = open(title, "wt")
     text_content = text_file.write(big_s)
     text_file.close()
-    
-    
     Fcentering=float(Fcenter_var.get())
     #####func_gen.write(":SOUR1:APPL:SIN "+str(Fcentering)+",1.250,0,0")
     #####funcgen_fcent=float(func_gen.query(':SOUR1:FREQ?'))
     funcgen_fcent=Fcentering
-    
     data_time=[0]*1
     data_time_=[0]*1
     data_freq=[0]*1
-    
     i=0
-    
     while (1==1):
         if endThread.is_set():
             #####func_gen.close()
@@ -184,20 +162,17 @@ def freq_meassure():
             if (data_time[0]==0):
                 
                 data_time[0]=datetime.now()
+                data_freq[0]=funcgen_fcent+random.random()*1-0.5
                 #####osc_curve=osc.query_binary_values('CURVE?', datatype='b', is_big_endian=True)
                 #####osc_scale=float(osc.query('CH1:SCALe?'))
-                data_freq[0]=funcgen_fcent+random.random()*1-0.5
                 #####data_freq[0]=osc_signal_processor(osc_curve,osc_scale,funcgen_fcent)
                 data_time_[0]=data_time[0].timestamp()
-                
-                
-                
             else:
                 
                 data_time.append(datetime.now())
+                data_freq.append(funcgen_fcent+random.random()*1-0.5)
                 #####osc_curve=osc.query_binary_values('CURVE?', datatype='b', is_big_endian=True)
                 #####osc_scale=float(osc.query('CH1:SCALe?'))
-                data_freq.append(funcgen_fcent+random.random()*1-0.5)
                 #####data_freq.append(osc_signal_processor(osc_curve,osc_scale,funcgen_fcent))
                 data_time_.append(data_time[i].timestamp())
             EventDATA.set()
@@ -212,9 +187,7 @@ def freq_meassure():
     endThread.set()
 
 def data_thread_start():
-    
-    start["state"] = "disabled"
-    
+    start["state"] = "disabled" #prevents the ability to press START until released
     endThread.clear()
     EventDATA.clear()
     thread_1=threading.Thread(target=graphing)
@@ -224,7 +197,7 @@ def data_thread_start():
 
 def data_thread_stop():
     endThread.set()
-    start["state"] = "normal"
+    start["state"] = "normal" #pressing STOP releases START
 
 
 fig= Figure(figsize=(8,6),dpi=123)

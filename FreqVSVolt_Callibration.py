@@ -41,7 +41,7 @@ while (cycle<fwd_bwd_cycles):
     while i <len(data_osc):
         data_osc[i]=[0]*size
         data_func[i]=V_max*-1+i*V_delta
-        func_command=func_gen.write(":SOUR1:APPL:NOIS 0.002,"+str(data_func[i])) #set new voltage on function generator
+        func_command=func_gen.write(":SOUR1:APPL:DC 1,1,2"+str(data_func[i])) #set new voltage on function generator
         j=0
         while j<size:
             data_osc[i][j]=float(osc.query("TRIGger:MAIn:FREQuency?")) #obtaining frequency reading from oscilloscope
@@ -61,7 +61,7 @@ while (cycle<fwd_bwd_cycles):
     while i <len(data_osc):
         data_osc[i]=[0]*size
         data_func[i]=V_max-i*V_delta
-        func_command=func_gen.write(":SOUR1:APPL:NOIS 0.002,"+str(data_func[i]))
+        func_command=func_gen.write(":SOUR1:APPL:DC 1,1,2"+str(data_func[i]))
         j=0
         while j<size:
             data_osc[i][j]=float(osc.query("TRIGger:MAIn:FREQuency?"))
