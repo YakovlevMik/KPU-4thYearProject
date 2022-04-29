@@ -35,6 +35,11 @@ global data_time
 global data_time_
 global data_freq
 
+
+global time_delay
+time_delay=5
+
+
 ### placeholder that will be used to contorl instruments
 global rm 
 rm=pyvisa.ResourceManager() # creates resource manager require for communication with function generator
@@ -138,8 +143,8 @@ def freq_meassure():
     global data_freq
     global run_start
     global big_s
-    run_start=datetime.now().strftime("[%Y.%m.%d]-(%H_%M_%S)")
-    title="DATA"+str(run_start)+".csv"
+    run_start=datetime.now().strftime("%Y.%m.%d-%H,,%M,,%S")
+    title=str(run_start)+"__FreqData.csv"
     big_s="[Date] (Time),Time Stamp,Frequency f (Hz)\n"
     text_file = open(title, "wt")
     text_content = text_file.write(big_s)
@@ -183,7 +188,7 @@ def freq_meassure():
             text_content = text_file.write(big_s)
             text_file.close()
             i=i+1
-            time.sleep(1)
+            time.sleep(time_delay)
     endThread.set()
 
 def data_thread_start():
@@ -208,8 +213,8 @@ canvas.get_tk_widget().pack(side=tk.RIGHT)
 
 
 
-timespan_label = tk.Label(control_frame,font=font_A,text="Graphing Timespan")
-timespan_label_ = tk.Label(control_frame,text="sec",font=font_B)
+timespan_label = tk.Label(control_frame,font=font_A,text="Graphing Span")
+timespan_label_ = tk.Label(control_frame,text="points",font=font_B)
 timespan_var = tk.StringVar(value="30")
 timespan_entry = tk.Entry(control_frame,bg="#ffffff",textvariable=timespan_var,font=font_B)
 
