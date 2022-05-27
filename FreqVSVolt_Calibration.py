@@ -15,8 +15,7 @@ V_max=1.5 # absolute maximum voltage to be checked in sweep (Volt)
 V_delta=0.5 # spacing of voltage points (Volt)
 t_delta=0.2 # rate of oscilloscope frequency capture (seconds)
 fwd_bwd_cycles=3 # Number of forward-backward sweeps
-time_delay=0.5 #time delay between voltage poijnt change and start of oscilloscope data acquisiton
-
+t_delay=0.5 #time delay between voltage poijnt change and start of oscilloscope data acquisiton
 F_centre=1000
 F_MaxDev=2.5
 
@@ -33,10 +32,10 @@ osc=rm.open_resource(OSC_name) #oscilloscope
 # Loop for figuring out the number of voltage points for dta-storing arrays
 i=V_max*-1
 v_set=1
-while i!=999:
+while i!=99999999999:
     i=i+V_delta
     if i>V_max:
-        i=999
+        i=99999999999
     else:
         v_set=v_set+1
 
@@ -55,11 +54,11 @@ while (cycle<fwd_bwd_cycles):
         data_osc[i]=[0]*size
         data_func[i]=V_max*-1+i*V_delta
         func_command=func_gen.write(":SOUR1:APPL:DC 1,1,"+str(data_func[i])) #set new voltage on function generator
-        time.sleep(time_delay)
+        time.sleep(t_delay)
         j=0
         while j<size:
             data_osc[i][j]=float(osc.query("TRIGger:MAIn:FREQuency?")) #obtaining frequency reading from oscilloscope
-            print(data_osc[i][j])
+            #print(data_osc[i][j])
             time.sleep(t_delta) #time delay between frequency captures
             j=j+1
         data_avg[i]=np.mean(data_osc[i]) # obtaining average frequency for the specific voltage point
@@ -77,11 +76,11 @@ while (cycle<fwd_bwd_cycles):
         data_osc[i]=[0]*size
         data_func[i]=V_max-i*V_delta
         func_command=func_gen.write(":SOUR1:APPL:DC 1,1,"+str(data_func[i]))
-        time.sleep(time_delay)
+        time.sleep(t_delay)
         j=0
         while j<size:
             data_osc[i][j]=float(osc.query("TRIGger:MAIn:FREQuency?"))
-            print(data_osc[i][j])
+            #print(data_osc[i][j])
             time.sleep(t_delta)
             j=j+1
         data_avg[i]=np.mean(data_osc[i])
