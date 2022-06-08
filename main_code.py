@@ -136,8 +136,8 @@ def freq_meassure():
     global rm
     global func_gen
     global osc
-    #####func_gen=rm.open_resource('USB0::0x1AB1::0x0642::DG1ZA201701936::INSTR')
-    #####osc=rm.open_resource('USB0::0x0699::0x0368::C026273::INSTR')
+    #####COMMENT THIS BACK#####func_gen=rm.open_resource('USB0::0x1AB1::0x0642::DG1ZA201701936::INSTR')
+    #####COMMENT THIS BACK#####osc=rm.open_resource('USB0::0x0699::0x0368::C026273::INSTR')
     global data_time
     global data_time_
     global data_freq
@@ -150,8 +150,8 @@ def freq_meassure():
     text_content = text_file.write(big_s)
     text_file.close()
     Fcentering=float(Fcenter_var.get())
-    #####func_gen.write(":SOUR1:APPL:SIN "+str(Fcentering)+",1.250,0,0")
-    #####funcgen_fcent=float(func_gen.query(':SOUR1:FREQ?'))
+    #####COMMENT THIS BACK#####func_gen.write(":SOUR1:APPL:SIN "+str(Fcentering)+",1.250,0,0")
+    #####COMMENT THIS BACK#####funcgen_fcent=float(func_gen.query(':SOUR1:FREQ?'))
     funcgen_fcent=Fcentering
     data_time=[0]*1
     data_time_=[0]*1
@@ -159,8 +159,8 @@ def freq_meassure():
     i=0
     while (1==1):
         if endThread.is_set():
-            #####func_gen.close()
-            #####osc.close()
+            #####COMMENT THIS BACK#####func_gen.close()
+            #####COMMENT THIS BACK#####osc.close()
             return
         else:
             LockThread.acquire()
@@ -168,17 +168,17 @@ def freq_meassure():
                 
                 data_time[0]=datetime.now()
                 data_freq[0]=funcgen_fcent+random.random()*1-0.5
-                #####osc_curve=osc.query_binary_values('CURVE?', datatype='b', is_big_endian=True)
-                #####osc_scale=float(osc.query('CH1:SCALe?'))
-                #####data_freq[0]=osc_signal_processor(osc_curve,osc_scale,funcgen_fcent)
+                #####COMMENT THIS BACK#####osc_curve=osc.query_binary_values('CURVE?', datatype='b', is_big_endian=True)
+                #####COMMENT THIS BACK#####osc_scale=float(osc.query('CH1:SCALe?'))
+                #####COMMENT THIS BACK#####data_freq[0]=osc_signal_processor(osc_curve,osc_scale,funcgen_fcent)
                 data_time_[0]=data_time[0].timestamp()
             else:
                 
                 data_time.append(datetime.now())
                 data_freq.append(funcgen_fcent+random.random()*1-0.5)
-                #####osc_curve=osc.query_binary_values('CURVE?', datatype='b', is_big_endian=True)
-                #####osc_scale=float(osc.query('CH1:SCALe?'))
-                #####data_freq.append(osc_signal_processor(osc_curve,osc_scale,funcgen_fcent))
+                #####COMMENT THIS BACK#####osc_curve=osc.query_binary_values('CURVE?', datatype='b', is_big_endian=True)
+                #####COMMENT THIS BACK#####osc_scale=float(osc.query('CH1:SCALe?'))
+                #####COMMENT THIS BACK#####data_freq.append(osc_signal_processor(osc_curve,osc_scale,funcgen_fcent))
                 data_time_.append(data_time[i].timestamp())
             EventDATA.set()
             LockThread.release()
