@@ -35,9 +35,9 @@ global data_time
 global data_time_
 global data_freq
 
-
+###ADJUST TIME DELAY TO YOUR NEEDS#####
 global time_delay
-time_delay=5
+time_delay=0.5
 
 
 ### placeholder that will be used to contorl instruments
@@ -127,7 +127,11 @@ def osc_signal_processor(data,scale,fcent,fdev):
         volts[i]=(float(data[i+6])-127.0)*quant;
         i=i+1
     value_volt=np.mean(volts)
+    
+    #####FIX THIS NUMERIC VALUE; IT COMES FROM THE CALIBRATION CURVE SLOPE AS    Hz/V ####
     output=value_volt*0.4545+fcent
+    
+    
     return output
     
 def freq_meassure():
@@ -213,8 +217,8 @@ canvas.get_tk_widget().pack(side=tk.RIGHT)
 
 
 
-timespan_label = tk.Label(control_frame,font=font_A,text="Graphing Span")
-timespan_label_ = tk.Label(control_frame,text="points",font=font_B)
+timespan_label = tk.Label(control_frame,font=font_A,text="Graphing Window")
+timespan_label_ = tk.Label(control_frame,text="latest points",font=font_B)
 timespan_var = tk.StringVar(value="30")
 timespan_entry = tk.Entry(control_frame,bg="#ffffff",textvariable=timespan_var,font=font_B)
 
