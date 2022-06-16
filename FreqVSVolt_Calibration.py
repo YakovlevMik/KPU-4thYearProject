@@ -22,7 +22,7 @@ F_MaxDev=2.5
 
 
 run_start=datetime.now().strftime("%Y.%m.%d-%H,,%M,,%S")
-#Setting up connection with function generator & oscilloscope
+# Setting up connection with function generator & oscilloscope
 rm=pyvisa.ResourceManager()
 func_gen=rm.open_resource(FG_name) #function generator
 osc=rm.open_resource(OSC_name) #oscilloscope

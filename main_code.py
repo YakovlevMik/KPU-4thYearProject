@@ -52,7 +52,7 @@ osc=0
 font_A='Helvetica 12 bold'
 font_B='Helvetica 12'
 
-root = tk.Tk() #frame of the UI
+root = tk.Tk() # frame of the UI
 control_frame= tk.Frame(root) #sub-frame for all interactables
 control_frame.pack(side=tk.LEFT)
 root.wm_title("QTF Sensor - Frequency Acquisition Software")
